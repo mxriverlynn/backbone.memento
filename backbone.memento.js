@@ -1,3 +1,14 @@
+// Backbone.Memento v0.1.0
+//
+// Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
+// Distributed Under MIT Liscene
+//
+// Documentation and Full Licence Availabe at:
+// http://github.com/derickbailey/backbone.memento
+
+// ----------------------------
+// Backbone.Memento
+// ----------------------------
 Backbone.Memento = (function(model){
   var attributeStack = {};
 
