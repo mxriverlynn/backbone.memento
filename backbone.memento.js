@@ -1,4 +1,4 @@
-// Backbone.Memento v0.1.0
+// Backbone.Memento v0.1.1
 //
 // Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
 // Distributed Under MIT Liscene
@@ -10,7 +10,7 @@
 // Backbone.Memento
 // ----------------------------
 Backbone.Memento = (function(model){
-  var attributeStack = {};
+  var attributeStack = new Array();
 
   function getRemovedAttrDiff(newAttrs, oldAttrs){
     var removedAttrs = [];
@@ -34,15 +34,14 @@ Backbone.Memento = (function(model){
   }
   
   return {
-    version: "0.1.0",
+    version: "0.1.1",
 
     push: function(){
-      var count = Object.keys(attributeStack).length;
-      attributeStack[count] = model.toJSON();
+      attributeStack.push(model.toJSON());
     },
     
     pop: function(){
-      var last = Object.keys(attributeStack).length-1;
+      var last = attributeStack.length-1;
       if (last < 0)
         return null;
 
