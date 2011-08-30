@@ -95,6 +95,18 @@ myModel.restore(); // => causes an alert box to say "bar was changed to undefine
 myModel.get("bar"); // => undefined, as the attribute does not exist
 ````
 
+# Release Notes
+
+## v0.1.2
+
+* Added ability to `reset` a model, moving back to the beginning of the memento stack
+* Fixed a few bugs in the removing of old attributes, related to global variables, etc
+* Code cleanup and switching to a standard object constructor function instead of return an object literal
+
+## v0.1 and v0.1.1
+
+* Initial releases with a few minor bug fixes
+
 # Legal Mumbo Jumbo (MIT License)
 
 Copyright (c) 2011 Derick Bailey, Muted Solutions, LLC
