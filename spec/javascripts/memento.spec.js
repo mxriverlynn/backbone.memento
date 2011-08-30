@@ -85,6 +85,23 @@ describe("memento", function(){
     });
 
 
+     it("should lose all other save points", function(){
+      var changed = false;
+      this.model.set({foo: "bar"});
+      this.model.store();
+      this.model.set({foo: "baz"});
+      this.model.store();
+      this.model.set({foo: "qux"});
+      this.model.store();
+
+      this.model.clear();
+      this.model.restore();
+
+      expect(this.model.get('foo')).toBe('bar'); //should not be qux
+    });
+
+
+
     it("should do nothing given no store point", function(){
       var changed = false;
       this.model.set({foo: "bar"});

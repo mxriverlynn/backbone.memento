@@ -68,7 +68,11 @@ Backbone.Memento = (function(model){
         return null;
       }
 
+      
+
       restoreState(0);
+      // restoreState deleted item 0, but really we should be starting from scratch.
+      attributeStack = new Array();
     }
   }
 });
