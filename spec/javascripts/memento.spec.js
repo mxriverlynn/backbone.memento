@@ -63,4 +63,39 @@ describe("memento", function(){
       expect(changed).toBeTruthy();
     });
   });
+  
+  describe("when clearing", function(){
+    it("should restore to first memento given successive save points", function(){
+      var changed = false;
+      this.model.set({foo: "bar"});
+      this.model.store();
+      this.model.set({foo: "baz"});
+      this.model.store();
+      this.model.set({foo: "qux"});
+      this.model.store();
+
+      this.model.bind("change:foo", function(){
+        changed = true;
+      });
+
+      expect(this.model.get('foo')).toBe('qux');
+      this.model.clear();
+      expect(changed).toBeTruthy();
+      expect(this.model.get('foo')).toBe('bar');
+    });
+
+
+    it("should do nothing given no store point", function(){
+      var changed = false;
+      this.model.set({foo: "bar"});
+
+      this.model.bind("change:foo", function(){
+        changed = true;
+      });
+      this.model.clear();
+
+      expect(this.model.get('foo')).toBe('bar');
+      expect(changed).toBeFalsy();
+    });
+  });
 });
