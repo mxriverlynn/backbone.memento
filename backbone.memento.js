@@ -9,8 +9,10 @@
 // ----------------------------
 // Backbone.Memento
 // ----------------------------
-Backbone.Memento = (function(model){
-  var attributeStack = new Array();
+Backbone.Memento = function(model){
+  this.version = "0.1.2";
+
+  var attributeStack;
 
   function getRemovedAttrDiff(newAttrs, oldAttrs){
     var removedAttrs = [];
@@ -28,7 +30,7 @@ Backbone.Memento = (function(model){
 
   function removeAttributes(model, attrsToRemove){
     for (var index in attrsToRemove){
-      attr = attrsToRemove[index];
+      var attr = attrsToRemove[index];
       model.unset(attr);
     }
   }
@@ -47,32 +49,32 @@ Backbone.Memento = (function(model){
       //destroy the no-longer-current state
       delete attributeStack[last];
   }
-  
-  return {
-    version: "0.1.2",
 
-    push: function(){
-      attributeStack.push(model.toJSON());
-    },
-    
-    pop: function(){
-      var last = attributeStack.length-1;
-      if (last < 0)
-        return null;
-
-      restoreState(last);
-    },
-
-    clear: function(){
-      if(attributeStack.length === 0){
-        return null;
-      }
-
-      
-
-      restoreState(0);
-      // restoreState deleted item 0, but really we should be starting from scratch.
-      attributeStack = new Array();
-    }
+  function initialize(){
+    attributeStack = new Array();
   }
-});
+
+  this.push = function(){
+    attributeStack.push(model.toJSON());
+  }
+  
+  this.pop = function(){
+    var last = attributeStack.length-1;
+    if (last < 0) {
+      return null;
+    }
+    restoreState(last);
+  }
+
+  this.clear = function(){
+    if(attributeStack.length === 0){
+      return null;
+    }
+    restoreState(0);
+    // restoreState deleted item 0, but really 
+    // we should be starting from scratch.
+    initialize();
+  }
+
+  initialize();
+};
