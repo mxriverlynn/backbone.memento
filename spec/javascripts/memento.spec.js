@@ -27,6 +27,19 @@ describe("memento", function(){
     });
   });
 
+  describe("when mementoing once and restoring twice", function(){
+    beforeEach(function(){
+      this.model.set({foo: "bar"});
+      this.model.store();
+    });
+
+    it("should not restore anything", function(){
+      this.model.restore();
+      this.model.restore();
+      expect(this.model.get("foo")).toBe("bar");
+    });
+  });
+
   describe("when mementoing twice and rolling back once", function(){
     beforeEach(function(){
       this.model.set({foo: "bar"});
@@ -84,8 +97,7 @@ describe("memento", function(){
       expect(this.model.get('foo')).toBe('bar');
     });
 
-
-     it("should lose all other save points", function(){
+    it("should lose all other save points", function(){
       var changed = false;
       this.model.set({foo: "bar"});
       this.model.store();
@@ -99,8 +111,6 @@ describe("memento", function(){
 
       expect(this.model.get('foo')).toBe('bar'); //should not be qux
     });
-
-
 
     it("should do nothing given no store point", function(){
       var changed = false;

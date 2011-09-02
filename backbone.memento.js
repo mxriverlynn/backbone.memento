@@ -17,6 +17,13 @@ Backbone.Memento = function(model){
   function getRemovedAttrDiff(newAttrs, oldAttrs){
     var removedAttrs = [];
 
+    // guard clause to ensure we have attrs to compare
+    if (!newAttrs || !oldAttrs){
+      return removedAttrs;
+    }
+
+    // if the attr is found in the old set but not in
+    // the new set, then it was remove in the new set
     for (var attr in oldAttrs){
       if (oldAttrs.hasOwnProperty(attr)){
         if (!newAttrs.hasOwnProperty(attr)){
