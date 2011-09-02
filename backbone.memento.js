@@ -1,4 +1,4 @@
-// Backbone.Memento v0.1.2
+// Backbone.Memento v0.1.3
 //
 // Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
 // Distributed Under MIT Liscene
@@ -10,7 +10,7 @@
 // Backbone.Memento
 // ----------------------------
 Backbone.Memento = function(model){
-  this.version = "0.1.2";
+  this.version = "0.1.3";
 
   var attributeStack;
 

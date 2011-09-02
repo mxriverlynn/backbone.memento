@@ -97,6 +97,10 @@ myModel.get("bar"); // => undefined, as the attribute does not exist
 
 # Release Notes
 
+## v0.1.3
+
+* Fixed a small bug with rolling back more times than had been saved
+
 ## v0.1.2
 
 * Added ability to `reset` a model, moving back to the beginning of the memento stack
