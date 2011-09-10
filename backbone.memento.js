@@ -82,13 +82,13 @@ Backbone.Memento = function(model, config){
     attributeStack = new Array();
   }
 
-  this.push = function(){
+  this.store = function(){
     var attrs = model.toJSON();
     attrs = dropIgnored(attrs, config);
     attributeStack.push(attrs);
   }
   
-  this.pop = function(restoreConfig){
+  this.restore = function(restoreConfig){
     if (restoreConfig === undefined){
       restoreConfig = _.clone(config);
     }
@@ -101,7 +101,7 @@ Backbone.Memento = function(model, config){
     restoreState(last, restoreConfig);
   }
 
-  this.clear = function(){
+  this.reset = function(){
     if(attributeStack.length === 0){
       return null;
     }
