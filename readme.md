@@ -52,6 +52,27 @@ SomeModel = Backbone.Model.extend({
 });
 ````
 
+## Ignore Some Attributes
+
+There are some scenarios where it may cause issues to have all attributes restored from
+a previous state, for a model. In this case, you can ignore specific attributes for
+the model.
+
+You can configure the memento to ignore the attributes when instantiating the memento:
+
+````
+SomeModel = Backbone.Model.extend({
+  initialize: function(){
+    this.memento = new Backbone.Memento(this{
+      ignore: ["someAttr", "another", "whatever", "..."]
+    });
+  },
+
+  // ...
+});
+````
+
+
 ## Examples
 
 With this in place, you can push your model's state onto the memento stack by calling
@@ -96,6 +117,10 @@ myModel.get("bar"); // => undefined, as the attribute does not exist
 ````
 
 # Release Notes
+
+## v0.1.4
+
+* ability to ignore model attributes - they won't be stored or restored
 
 ## v0.1.3
 
