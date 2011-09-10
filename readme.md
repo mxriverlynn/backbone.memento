@@ -33,30 +33,85 @@ that wishes to use it. Be sure to include the modelbinding file _after_ the back
 ### Setup A Model For Mementoing
 
 Your models must make use of the Backbone.Memento object, directly. This can easily be
-done by instantiating the memento with your model's initializer and then providing a
-store and restore method.
+done in multiple ways
+
+#### Extend The Memento
+
+You can tell a model instance to extend a memento instance. This will provide all of
+the memento methods directly on the model.
+
+````
+SomeModel = Backbone.Model.extend({
+  initialize: function(){
+    var memento = new Backbone.Memento(this);
+    _.extend(this, memento);
+  }
+});
+
+````
+
+#### Cherry-Picking Methods
+
+You can also configure a model by instantiating the memento with your model's 
+initializer and then providing access to the methods as needed, or by using the 
+methods internally.
 
 ````
 SomeModel = Backbone.Model.extend({
   initialize: function(){
     this.memento = new Backbone.Memento(this);
+    this.reset = this.memento.reset;
   },
 
-  store: function(){
-    this.memento.push();
+  someAppMethod: function(){
+    this.memento.set();
   },
 
-  restore: function(){
-    this.memento.pop();
+  moreAppMethod: function(){
+    this.memento.store();
+    // ... do stuff here
+
+    // ... then reset it if needed
+    this.memento.restore();
   }
 });
 ````
 
-## Ignore Some Attributes
+This gives you more control over where the memento methods can be used.
+
+## Memento Methods
+
+There are several methods provided by Backbone.Memento, to allow you more control over
+how the memento object works, and when. 
+
+### memento.store
+
+This method creates a copy of your model's current state, as a memento, and stores it in
+a stack (first in, last out). 
+
+### memento.restore
+
+This method takes the previously stored state, and restores your model to this state. You
+can call this as many times as you have called `store`. Calling this method more times 
+than you have called store will result in a no-operation and your model will not be
+changed.
+
+### memento.reset
+
+This method effectively rolls your model back to the first store point, no matter how
+many times it has been stored in the memento.
+
+## Configuration
+
+There is only one item of configuration for Backbone.Memento at the moment:
+
+### Ignore Model Attributes
 
 There are some scenarios where it may cause issues to have all attributes restored from
 a previous state, for a model. In this case, you can ignore specific attributes for
 the model.
+
+#### Ignore For The Model Instance
 
 You can configure the memento to ignore the attributes when instantiating the memento:
 
@@ -79,6 +134,8 @@ someModel.restore();
 
 someModel.get("something"); //=> "a change"
 ````
+
+#### Ignore For This Restore Only
 
 Alternatively, you can override the pre-configured ignored attributes by passing an
 `ignore` array into the `restore` method:
@@ -148,6 +205,12 @@ myModel.get("bar"); // => undefined, as the attribute does not exist
 ````
 
 # Release Notes
+
+## v0.2.0
+
+* changed the public memento API and how a model is connected to the memento
+* changed the name of the 'clear' method to 'reset', to prevent hijacking the model's clear method
+* updated the documentation to include better examples and more detail
 
 ## v0.1.4
 
