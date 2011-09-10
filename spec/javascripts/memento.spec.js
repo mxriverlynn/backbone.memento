@@ -33,7 +33,7 @@ describe("memento", function(){
       this.model.store();
     });
 
-    it("should not restore anything", function(){
+    it("should not restore anything past the first one", function(){
       this.model.restore();
       this.model.restore();
       expect(this.model.get("foo")).toBe("bar");

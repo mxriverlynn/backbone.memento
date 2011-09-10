@@ -18,7 +18,7 @@ Backbone.Memento = function(model, config){
 
   var attributeStack;
 
-  function getRemovedAttrDiff(newAttrs, oldAttrs){
+  function getAddedAttrDiff(newAttrs, oldAttrs){
     var removedAttrs = [];
 
     // guard clause to ensure we have attrs to compare
@@ -46,13 +46,18 @@ Backbone.Memento = function(model, config){
     }
   }
 
-  function restoreState(last){
+  function restoreState(last, restoreConfig){
     //get the previous state
     var oldAttrs = attributeStack[last];
-    var currentAttrs = dropIgnored(model.toJSON());
+    if (oldAttrs === undefined){ return; }
+    oldAttrs = dropIgnored(oldAttrs, restoreConfig);
+
+    //get the current state
+    var currentAttrs = model.toJSON();
+    currentAttrs = dropIgnored(currentAttrs, restoreConfig);
 
     //handle removing attributes that were added
-    var removedAttrs = getRemovedAttrDiff(oldAttrs, currentAttrs);
+    var removedAttrs = getAddedAttrDiff(oldAttrs, currentAttrs);
     removeAttributes(model, removedAttrs);
 
     //restore the previous state
@@ -62,11 +67,11 @@ Backbone.Memento = function(model, config){
     delete attributeStack[last];
   }
 
-  function dropIgnored(attrs){
+  function dropIgnored(attrs, restoreConfig){
     attrs = _.clone(attrs);
-    if (config.hasOwnProperty("ignore") && config.ignore.length > 0){
-      for(var index in config.ignore){
-        var ignore = config.ignore[index];
+    if (restoreConfig.hasOwnProperty("ignore") && restoreConfig.ignore.length > 0){
+      for(var index in restoreConfig.ignore){
+        var ignore = restoreConfig.ignore[index];
         delete attrs[ignore];
       }
     }
@@ -79,23 +84,28 @@ Backbone.Memento = function(model, config){
 
   this.push = function(){
     var attrs = model.toJSON();
-    attrs = dropIgnored(attrs);
+    attrs = dropIgnored(attrs, config);
     attributeStack.push(attrs);
   }
   
-  this.pop = function(){
+  this.pop = function(restoreConfig){
+    if (restoreConfig === undefined){
+      restoreConfig = _.clone(config);
+    }
+
     var last = attributeStack.length-1;
     if (last < 0) {
       return null;
     }
-    restoreState(last);
+
+    restoreState(last, restoreConfig);
   }
 
   this.clear = function(){
     if(attributeStack.length === 0){
       return null;
     }
-    restoreState(0);
+    restoreState(0, config);
     // restoreState deleted item 0, but really 
     // we should be starting from scratch.
     initialize();
