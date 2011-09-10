@@ -1,4 +1,4 @@
-// Backbone.Memento v0.1.4
+// Backbone.Memento v0.2.0
 //
 // Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
 // Distributed Under MIT Liscene
@@ -10,7 +10,7 @@
 // Backbone.Memento
 // ----------------------------
 Backbone.Memento = function(model, config){
-  this.version = "0.1.4";
+  this.version = "0.2.0";
 
   config = _.extend({
     ignore: []
