@@ -63,15 +63,46 @@ You can configure the memento to ignore the attributes when instantiating the me
 ````
 SomeModel = Backbone.Model.extend({
   initialize: function(){
-    this.memento = new Backbone.Memento(this{
-      ignore: ["someAttr", "another", "whatever", "..."]
+    this.memento = new Backbone.Memento(this, {
+      ignore: ["something", "another", "whatever", "..."]
     });
   },
 
   // ...
 });
+
+var someModel = new SomeModel();
+someModel.set({something: "whatever"});
+someModel.store();
+someModel.set({something: "a change"});
+someModel.restore();
+
+someModel.get("something"); //=> "a change"
 ````
 
+Alternatively, you can override the pre-configured ignored attributes by passing an
+`ignore` array into the `restore` method:
+
+````
+SomeModel = Backbone.Model.extend({
+  initialize: function(){
+    this.memento = new Backbone.Memento(this);
+  },
+
+  // ...
+});
+
+var someModel = new SomeModel();
+someModel.set({something: "whatever"});
+someModel.store();
+someModel.set({something: "a change"});
+someModel.restore({ignore: ["something"]});
+
+someModel.get("something"); //=> "a change"
+````
+
+Note that passing an `ignore` array into the `restore` method will override the pre-configured
+ignore list.
 
 ## Examples
 
