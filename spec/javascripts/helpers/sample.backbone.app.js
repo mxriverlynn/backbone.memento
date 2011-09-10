@@ -1,17 +1,19 @@
 AModel = Backbone.Model.extend({
   initialize: function(){
-    this.memento = new Backbone.Memento(this);
-  },
+    var memento = new Backbone.Memento(this);
+    this.store = memento.push;
+    this.restore = memento.pop;
+    this.clear = memento.clear;
+  }
+});
 
-  store: function(){
-    this.memento.push();
-  },
-
-  restore: function(){
-    this.memento.pop();
-  },
-
-  clear: function(){
-    this.memento.clear();
+IgnoredAttrsModel = Backbone.Model.extend({
+  initialize: function(){
+    var memento = new Backbone.Memento(this, {
+      ignore: ["ignoreMe"]
+    });
+    this.store = memento.push;
+    this.restore = memento.pop;
+    this.clear = memento.clear;
   }
 });

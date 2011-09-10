@@ -9,8 +9,12 @@
 // ----------------------------
 // Backbone.Memento
 // ----------------------------
-Backbone.Memento = function(model){
+Backbone.Memento = function(model, config){
   this.version = "0.1.3";
+
+  config = _.extend({
+    ignore: []
+  }, config);
 
   var attributeStack;
 
@@ -43,18 +47,30 @@ Backbone.Memento = function(model){
   }
 
   function restoreState(last){
-      //get the previous state
-      var attrs = attributeStack[last];
+    //get the previous state
+    var oldAttrs = attributeStack[last];
+    var currentAttrs = dropIgnored(model.toJSON());
 
-      //handle removing attributes that were added
-      var removedAttrs = getRemovedAttrDiff(attrs, model.toJSON());
-      removeAttributes(model, removedAttrs);
+    //handle removing attributes that were added
+    var removedAttrs = getRemovedAttrDiff(oldAttrs, currentAttrs);
+    removeAttributes(model, removedAttrs);
 
-      //restore the previous state
-      model.set(attrs);
+    //restore the previous state
+    model.set(oldAttrs);
 
-      //destroy the no-longer-current state
-      delete attributeStack[last];
+    //destroy the no-longer-current state
+    delete attributeStack[last];
+  }
+
+  function dropIgnored(attrs){
+    attrs = _.clone(attrs);
+    if (config.hasOwnProperty("ignore") && config.ignore.length > 0){
+      for(var index in config.ignore){
+        var ignore = config.ignore[index];
+        delete attrs[ignore];
+      }
+    }
+    return attrs;
   }
 
   function initialize(){
@@ -62,7 +78,9 @@ Backbone.Memento = function(model){
   }
 
   this.push = function(){
-    attributeStack.push(model.toJSON());
+    var attrs = model.toJSON();
+    attrs = dropIgnored(attrs);
+    attributeStack.push(attrs);
   }
   
   this.pop = function(){
