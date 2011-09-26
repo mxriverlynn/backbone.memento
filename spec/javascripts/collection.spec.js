@@ -76,6 +76,19 @@ describe("memento collection", function(){
       expect(changed).toBeTruthy();
     });
   });
+
+  describe("when removing a model from the collection and then restart", function(){
+    beforeEach(function(){
+      this.collection.reset([{foo: "bar"}, {bar: "baz"}]);
+      this.collection.store();
+    });
+
+    it("should re-add the model to the collection", function(){
+      this.collection.remove(this.collection.at(1));
+      this.collection.restore();
+      expect(this.collection.at(1).get("bar")).toBe("baz");
+    });
+  });
   
 });
 
