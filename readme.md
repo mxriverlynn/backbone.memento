@@ -235,6 +235,7 @@ myModel.get("bar"); // => undefined, as the attribute does not exist
 # Release Notes
 
 ## v0.3.0
+
 * changed the public memento API to support collections
 * updated documentation to reflect changes
 

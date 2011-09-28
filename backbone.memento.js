@@ -10,7 +10,7 @@
 // Backbone.Memento
 // ----------------------------
 Backbone.Memento = function(structure, config){
-  this.version = "0.2.0";
+  this.version = "0.3.0";
 
   config = _.extend({
     ignore: []
