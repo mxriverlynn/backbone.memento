@@ -1,10 +1,10 @@
-describe("reset all mementos", function(){
+describe("restart all mementos", function(){
   beforeEach(function(){
     this.model = new AModel();
   });
 
-  describe("when resetting", function(){
-    it("should reset to first memento given successive save points", function(){
+  describe("when restarting", function(){
+    it("should restart to first memento given successive save points", function(){
       var changed = false;
       this.model.set({foo: "bar"});
       this.model.store();
@@ -18,7 +18,7 @@ describe("reset all mementos", function(){
       });
 
       expect(this.model.get('foo')).toBe('qux');
-      this.model.reset();
+      this.model.restart();
       expect(changed).toBeTruthy();
       expect(this.model.get('foo')).toBe('bar');
     });
@@ -32,8 +32,8 @@ describe("reset all mementos", function(){
       this.model.set({foo: "qux"});
       this.model.store();
 
-      this.model.reset();
-      this.model.reset();
+      this.model.restart();
+      this.model.restart();
 
       expect(this.model.get('foo')).toBe('bar'); //should not be qux
     });
@@ -45,7 +45,7 @@ describe("reset all mementos", function(){
       this.model.bind("change:foo", function(){
         changed = true;
       });
-      this.model.reset();
+      this.model.restart();
 
       expect(this.model.get('foo')).toBe('bar');
       expect(changed).toBeFalsy();
