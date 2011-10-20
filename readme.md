@@ -121,13 +121,13 @@ can call this as many times as you have called `store`. Calling this method more
 than you have called store will result in a no-operation and your structure will not be
 changed.
 
-### memento.restart (formally reset)
+### memento.restart (formerly reset)
 
 :wa
 This method effectively rolls your structure back to the first store point, no matter how
 many times it has been stored in the memento.
 
-`reset` was deprecated since it has a naming conflict with Backbone.Collections.prototype.reset.  It is still available on structures, as to not break backwards compatibility.
+(`reset` was deprecated since it has a naming conflict with Backbone.Collections.prototype.reset.)
 
 ## Configuration
 
