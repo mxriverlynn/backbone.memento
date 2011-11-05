@@ -234,6 +234,17 @@ myModel.get("bar"); // => undefined, as the attribute does not exist
 
 # Release Notes
 
+## v0.4.1
+
+* Fixed global scope leak for a variable
+
+## v0.4.0
+
+* **Breaking Change:** Removed the `reset` method in favor of `restart`
+* Majore rewrite of the internal code
+* Produced screencast showing refacoring of this project: http://watchmecode.net/refactoring-javascript
+* Blogged some additional info on refactoring this project: http://lostechies.com/derickbailey/2011/10/25/rebuilding-my-backbone-js-plugins-with-modules-srp-and-more/
+
 ## v0.3.0
 
 * changed the public memento API to support collections
