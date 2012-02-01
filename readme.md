@@ -18,9 +18,9 @@ plugin.
 
 ### Prerequisites
 
-* Backbone.js v0.4 or higher
+* Backbone.js v0.5.3, v0.9.0, or higher
 
-This plugin is built and tested against Backbone v0.5.1 but should run against most
+This plugin is built and tested against Backbone v0.9.0 but should run against most
 versions of Backbone, as it only uses functionality built into the Backbone structures.
 Namely, it uses the `set` and `unset` methods of models and `reset` and `remove` of collections.
 
@@ -233,6 +233,13 @@ myModel.get("bar"); // => undefined, as the attribute does not exist
 ```
 
 # Release Notes
+
+## v0.4.1a
+
+* No code changes were made. This release is for library upgrades only, for testing purposes
+  * Updated Backbone to v0.9.0
+  * Updated Underscore to v1.3.1
+  * Updated jQuery to v1.7.1
 
 ## v0.4.1
 
